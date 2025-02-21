@@ -14,7 +14,7 @@ import  Line  from "./scenes/line";
 import  Pie  from "./scenes/pie";
 import  FAQ  from "./scenes/faq";
 import  Geography  from "./scenes/geography";
- import  Calendar  from "./scenes/calendar";
+import  Calendar  from "./scenes/calendar";
 import { Routes, Route } from "react-router-dom";
 import { useState } from "react";
 
