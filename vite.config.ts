@@ -11,6 +11,6 @@ export default defineConfig({
     },
   },
   build: {
-    outDir: 'build', // Customize the output directory for production builds
+    outDir: 'dist', // Customize the output directory for production builds
   },
 })
