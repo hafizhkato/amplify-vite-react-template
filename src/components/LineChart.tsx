@@ -12,7 +12,7 @@ interface LineChartProps {
 const LineChart: React.FC<LineChartProps> = ({ isCustomLineColors = false, isDashboard = false }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
+  console.log(isCustomLineColors)
   return (
     <ResponsiveLine
       data={data}
