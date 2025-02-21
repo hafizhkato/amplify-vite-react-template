@@ -9,11 +9,13 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import React from "react";
+import { useAuthenticator } from '@aws-amplify/ui-react';
 
 const Topbar: React.FC = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
+  const { signOut } = useAuthenticator();
 
   return (
     <Box display="flex" justifyContent="space-between" p={2}>
@@ -47,7 +49,7 @@ const Topbar: React.FC = () => {
         </IconButton>
 
         <IconButton>
-          <PersonOutlinedIcon />
+          <PersonOutlinedIcon onClick={signOut}/>
         </IconButton>
       </Box>
     </Box>

@@ -1,14 +1,28 @@
 import { Box } from "@mui/material";
 import { DataGrid, GridToolbar, GridColDef } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
-import { mockDataContacts } from "../../data/mockData";
+//import { mockDataContacts } from "../../data/mockData";
 import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
 import React from "react";
+import { generateClient } from "aws-amplify/data";
+import type { Schema } from "../../../amplify/data/resource";
+import { useState, useEffect } from "react";
+
+const client = generateClient<Schema>();
+
 
 const Contacts: React.FC = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const [users, setUsers] = useState<Array<Schema["User"]["type"]>>([]);
+  useEffect(() => {
+    const subscription = client.models.User.observeQuery().subscribe({
+      next: (data) => setUsers([...data.items]),
+    });
+  
+    return () => subscription.unsubscribe(); // Cleanup
+  }, []);
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID", flex: 0.5 },
@@ -92,7 +106,7 @@ const Contacts: React.FC = () => {
         }}
       >
         <DataGrid
-          rows={mockDataContacts}
+          rows={users}
           columns={columns}
           slots={{ toolbar: GridToolbar }}
         />
@@ -102,3 +116,4 @@ const Contacts: React.FC = () => {
 };
 
 export default Contacts;
+

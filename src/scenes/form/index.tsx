@@ -4,6 +4,8 @@ import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
 import React from "react";
+import { generateClient } from "aws-amplify/data";
+import type { Schema } from "../../../amplify/data/resource";
 
 interface FormValues {
   firstName: string;
@@ -13,6 +15,8 @@ interface FormValues {
   address1: string;
   address2: string;
 }
+
+const client = generateClient<Schema>();
 
 const initialValues: FormValues = {
   firstName: "",
@@ -41,9 +45,14 @@ const checkoutSchema = yup.object().shape({
 const Form: React.FC = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
 
-  const handleFormSubmit = (values: FormValues, actions: FormikHelpers<FormValues>) => {
-    console.log(values);
-    actions.setSubmitting(false);
+const handleFormSubmit = (values: FormValues, actions: FormikHelpers<FormValues>) => {
+  client.models.User.create(values)
+    .then(() => {console.log("Data saved successfully!");
+    actions.resetForm();
+  })
+    .catch((error) => console.error("Error saving data:", error));
+  console.log(values);
+  actions.setSubmitting(false);
   };
 
   return (
